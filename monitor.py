@@ -10,9 +10,9 @@ output_path = dropbox_path + "/jarvis/output.txt"
 
 def get_hash():
     sha512 = hashlib.sha512()
-    file = open(input_path)
-    sha512.update(file.read())
-    file.close()
+    input_file = open(input_path)
+    sha512.update(input_file.read())
+    input_file.close()
     return sha512.hexdigest()
 
 def monitor():
@@ -23,6 +23,14 @@ def monitor():
         new_hash = get_hash()
         if old_hash != new_hash:
             print "File changed!"
+
+            input_file = open(input_path)
+            data = input_file.read().splitlines()
+            input_file.close()
+
+            operation = data.pop(0)
+
+            # do stuff based on operation
 
 if __name__ == "__main__":
     print "Monitoring for changes..."
